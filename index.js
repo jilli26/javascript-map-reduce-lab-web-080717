@@ -9000,3 +9000,43 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+
+
+
+/*The value of this variable is the mapped issues array,
+replacing any mention of 'api.github.com' (in issue.url)
+with 'api-v2.github.com'*/
+
+
+var issuesWithUpdatedApiUrl = issues.map(issue => {
+  var newURL = issue.url.replace('api.github.com', 'api-v2.github.com')
+  return Object.assign({}, issue, {
+    url: newURL
+  })
+})
+
+//First, map the issues array and pull out the comments_count, to make things easier
+//use reduce to count all comments (comments_count)
+var commentCountAcrossIssues = issues.map((issue) => issue.comments_count).reduce((total, current) => total + current)
+
+
+//check whether issue.state is open or closed - we want array w/ only open; use filter
+var openIssues = issues.filter(function(issue){
+  return issue.state === "open"
+})
+
+//use filter
+var nonAutomaticIssues = issues.filter(function(issue){
+  return (issue.body !== "This pull request has been automatically created by learn.co.")
+})
+
+//print nonAutomaticIssues (above) on the html table body ($tbody)
+var $tbody = document.getElementById('results')
+$tbody.innerHTML = nonAutomaticIssues.map((issue) =>
+  `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.state}</td>
+    <td>${issue.created_at}</td>
+  </tr>`
+).join('')
